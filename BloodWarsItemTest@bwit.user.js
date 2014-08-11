@@ -3,7 +3,7 @@
 // ==UserScript==
 // @author		Ecilam
 // @name		Blood Wars Item Test
-// @version		2014.08.08
+// @version		2014.08.11
 // @namespace	BWIT
 // @description	Ce script calcule la facilité liée au niveau sur la page Item Test de BloodWars.
 // @copyright   2011-2014, Ecilam
@@ -23,6 +23,23 @@ function _Type(value){
 function _Exist(value){
 	return _Type(value)!='Undefined';
 	}
+
+/******************************************************
+* OBJET LS - Datas Storage
+******************************************************/
+var LS = (function(){
+	var LS = window.localStorage;
+	return {
+		_GetVar: function(key,defaut){
+			var value = LS.getItem(key);
+			return ((value!=null)?value:defaut);
+			},
+		_SetVar: function(key,value){
+			LS.setItem(key,value);
+			return value;
+			}
+		};
+	})();
 
 /****************************************************
 * OBJET DOM - Fonctions DOM & QueryString           *
@@ -95,22 +112,39 @@ var IU = (function(){
 /********
 * START *
 ********/
-function checkAbso(e){
-	LS.setItem('BWIT:ABSO',(e.target.checked==true?'1':'0'));
+function checkRace(e){
+	LS._SetVar('BWIT:ABSO',(e.target.value));
+	location.reload();
+}
+function checkTatou(e){
+	LS._SetVar('BWIT:TATOU',(e.target.value));
 	location.reload();
 }
 console.debug('BWIT start');
 if (!window.localStorage) throw new Error("Erreur : le service localStorage n\'est pas disponible.");
-var LS = window.localStorage,
-	lvl = DOM._GetFirstNode("//input[@id='setLvl']"),
+var lvl = DOM._GetFirstNode("//input[@id='setLvl']"),
 	last = DOM._GetFirstNode("//input[last()]");
 if (lvl!=null&&last!=null){
 	var ilvl = parseInt(lvl.value),
-		abso = LS.getItem('BWIT:ABSO','0')=='1',
-		faci = Math.min(((ilvl<71?Math.ceil((ilvl-60)/2):ilvl-70+5)+(abso?5:0)),50),
+		abso = LS._GetVar('BWIT:ABSO','0')=='1',
+		tatou = LS._GetVar('BWIT:TATOU','0'),
+		faci = Math.min(((ilvl<71?Math.ceil((ilvl-60)/2):ilvl-70+5)+(abso?5:0)+(tatou=='1'?7:tatou=='2'?10:0)),50),
 		node = IU._CreateElements({'span':['span',{'style':'text-align:middle'}],
-			'span1':['span',,[' Facilité: '+faci+'% - Absorbeur:'],,'span'],
-			'input':['input',{'type':'checkbox','style':'vertical-align:bottom','checked':abso},,{'change':[checkAbso]},'span']});
+			'span1':['span',,[' Facilité: '+faci],,'span'],
+			'div1':['div',{'style':'vertical-align:middle'},,,'span'],
+			'b1':['b',,['Race: '],,'div1'],
+			'input11':['input',{'type':'radio','name':'race','value':'0','checked':!abso},,{'change':[checkRace]},'div1'],
+			'span11':['span',,['Autres'],,'div1'],
+			'input12':['input',{'type':'radio','name':'race','value':'1','checked':abso},,{'change':[checkRace]},'div1'],
+			'span12':['span',,['Absorbeur'],,'div1'],
+			'div2':['div',{'style':'vertical-align:middle'},,,'span'],
+			'b2':['b',,['Tatouage (niv 5): '],,'div2'],
+			'input21':['input',{'type':'radio','name':'tatou','value':'0','checked':(tatou=='0')},,{'change':[checkTatou]},'div2'],
+			'span21':['span',,['Autres'],,'div2'],
+			'input22':['input',{'type':'radio','name':'tatou','value':'1','checked':(tatou=='1')},,{'change':[checkTatou]},'div2'],
+			'span22':['span',,['Moine'],,'div2'],
+			'input23':['input',{'type':'radio','name':'tatou','value':'2','checked':(tatou=='2')},,{'change':[checkTatou]},'div2'],
+			'span23':['span',,['Maître des démons'],,'div2']});
 	last.parentNode.insertBefore(node['span'],last.nextSibling);
 	var exi = DOM._GetNodes("//span[@class='error']");
 	for (var i=0;i<exi.snapshotLength;i++){
