@@ -3,7 +3,7 @@
 // ==UserScript==
 // @author		Ecilam
 // @name		Blood Wars Item Test
-// @version		2014.08.11
+// @version		2014.09.13
 // @namespace	BWIT
 // @description	Ce script calcule la facilité liée au niveau sur la page Item Test de BloodWars.
 // @copyright   2011-2014, Ecilam
@@ -15,13 +15,13 @@
 // ==/UserScript==
 "use strict";
 
-function _Type(value){
-	var type = Object.prototype.toString.call(value);
+function _Type(v){
+	var type = Object.prototype.toString.call(v);
 	return type.slice(8,type.length-1);
 	}
 
-function _Exist(value){
-	return _Type(value)!='Undefined';
+function _Exist(v){
+	return _Type(v)!='Undefined';
 	}
 
 /******************************************************
@@ -31,12 +31,12 @@ var LS = (function(){
 	var LS = window.localStorage;
 	return {
 		_GetVar: function(key,defaut){
-			var value = LS.getItem(key);
-			return ((value!=null)?value:defaut);
+			var v = LS.getItem(key);
+			return ((v!=null)?v:defaut);
 			},
-		_SetVar: function(key,value){
-			LS.setItem(key,value);
-			return value;
+		_SetVar: function(key,v){
+			LS.setItem(key,v);
+			return v;
 			}
 		};
 	})();
@@ -48,13 +48,11 @@ var LS = (function(){
 var DOM = (function(){
 	return {
 		_GetNodes: function(path,root){
-			var contextNode=(_Exist(root)&&root!=null)?root:document;
-			var result=document.evaluate(path, contextNode, null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-			return result;
+			return (_Exist(root)&&root==null)?null:document.evaluate(path,(_Exist(root)?root:document), null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
 			},
 		_GetFirstNode: function(path,root){
-			var result = this._GetNodes(path,root);
-			return ((result.snapshotLength >= 1)?result.snapshotItem(0):null);
+			var r = this._GetNodes(path,root);
+			return (r!=null&&r.snapshotLength>=1?r.snapshotItem(0):null);
 			}
 		};
 	})();
@@ -123,14 +121,14 @@ function checkTatou(e){
 console.debug('BWIT start');
 if (!window.localStorage) throw new Error("Erreur : le service localStorage n\'est pas disponible.");
 var lvl = DOM._GetFirstNode("//input[@id='setLvl']"),
-	last = DOM._GetFirstNode("//input[last()]");
+	last = DOM._GetFirstNode("(//input)[last()]");
 if (lvl!=null&&last!=null){
 	var ilvl = parseInt(lvl.value),
 		abso = LS._GetVar('BWIT:ABSO','0')=='1',
 		tatou = LS._GetVar('BWIT:TATOU','0'),
 		faci = Math.min(((ilvl<71?Math.ceil((ilvl-60)/2):ilvl-70+5)+(abso?5:0)+(tatou=='1'?7:tatou=='2'?10:0)),50),
 		node = IU._CreateElements({'span':['span',{'style':'text-align:middle'}],
-			'span1':['span',,[' Facilité: '+faci],,'span'],
+			'span1':['span',,[' Facilité: '+faci+'%'],,'span'],
 			'div1':['div',{'style':'vertical-align:middle'},,,'span'],
 			'b1':['b',,['Race: '],,'div1'],
 			'input11':['input',{'type':'radio','name':'race','value':'0','checked':!abso},,{'change':[checkRace]},'div1'],
