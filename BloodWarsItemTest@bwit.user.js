@@ -3,7 +3,7 @@
 // ==UserScript==
 // @author		Ecilam
 // @name		Blood Wars Item Test
-// @version		2014.09.13
+// @version		2014.12.16
 // @namespace	BWIT
 // @description	Ce script calcule la facilité liée au niveau sur la page Item Test de BloodWars.
 // @copyright   2011-2014, Ecilam
@@ -118,7 +118,11 @@ function checkTatou(e){
 	LS._SetVar('BWIT:TATOU',(e.target.value));
 	location.reload();
 }
-console.debug('BWIT start');
+function checkEvo(e){
+	LS._SetVar('BWIT:EVO',(e.target.value));
+	location.reload();
+}
+//console.debug('BWIT start');
 if (!window.localStorage) throw new Error("Erreur : le service localStorage n\'est pas disponible.");
 var lvl = DOM._GetFirstNode("//input[@id='setLvl']"),
 	last = DOM._GetFirstNode("(//input)[last()]");
@@ -126,7 +130,8 @@ if (lvl!=null&&last!=null){
 	var ilvl = parseInt(lvl.value),
 		abso = LS._GetVar('BWIT:ABSO','0')=='1',
 		tatou = LS._GetVar('BWIT:TATOU','0'),
-		faci = Math.min(((ilvl<71?Math.ceil((ilvl-60)/2):ilvl-70+5)+(abso?5:0)+(tatou=='1'?7:tatou=='2'?10:0)),50),
+		evo = LS._GetVar('BWIT:EVO','0'),
+		faci = Math.min(((ilvl<71?Math.ceil((ilvl-60)/2):ilvl-70+5)+(abso?5:0)+(tatou=='1'?7:tatou=='2'?10:0)+Number(evo)),50),
 		node = IU._CreateElements({'span':['span',{'style':'text-align:middle'}],
 			'span1':['span',,[' Facilité: '+faci+'%'],,'span'],
 			'div1':['div',{'style':'vertical-align:middle'},,,'span'],
@@ -142,7 +147,19 @@ if (lvl!=null&&last!=null){
 			'input22':['input',{'type':'radio','name':'tatou','value':'1','checked':(tatou=='1')},,{'change':[checkTatou]},'div2'],
 			'span22':['span',,['Moine'],,'div2'],
 			'input23':['input',{'type':'radio','name':'tatou','value':'2','checked':(tatou=='2')},,{'change':[checkTatou]},'div2'],
-			'span23':['span',,['Maître des démons'],,'div2']});
+			'span23':['span',,['Maître des démons'],,'div2'],
+			'div3':['div',{'style':'vertical-align:middle'},,,'span'],
+			'b3':['b',,['Evo "Légèreté de l`être" : '],,'div3'],
+			'input31':['input',{'type':'radio','name':'evo','value':'0','checked':(evo=='0')},,{'change':[checkEvo]},'div3'],
+			'span31':['span',,['0'],,'div3'],
+			'input32':['input',{'type':'radio','name':'evo','value':'1','checked':(evo=='1')},,{'change':[checkEvo]},'div3'],
+			'span32':['span',,['1'],,'div3'],
+			'input33':['input',{'type':'radio','name':'evo','value':'2','checked':(evo=='2')},,{'change':[checkEvo]},'div3'],
+			'span33':['span',,['2'],,'div3'],
+			'input34':['input',{'type':'radio','name':'evo','value':'4','checked':(evo=='4')},,{'change':[checkEvo]},'div3'],
+			'span34':['span',,['3'],,'div3'],
+			'input35':['input',{'type':'radio','name':'evo','value':'7','checked':(evo=='7')},,{'change':[checkEvo]},'div3'],
+			'span35':['span',,['4'],,'div3']});
 	last.parentNode.insertBefore(node['span'],last.nextSibling);
 	var exi = DOM._GetNodes("//span[@class='error']");
 	for (var i=0;i<exi.snapshotLength;i++){
@@ -151,5 +168,5 @@ if (lvl!=null&&last!=null){
 		if (val&&val[1]!='Le personnage doit être dans l`acte: '&&val[2]!=result) exi.snapshotItem(i).textContent = val[1]+result+" ("+val[2]+")";
 		}
 	}
-console.debug('BWIT end');
+//console.debug('BWIT end');
 })();
