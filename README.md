@@ -5,15 +5,18 @@ Ensemble de Userscripts améliorant le jeu [Blood Wars](http://www.fr.bloodwars.
 * [BloodWarsSpyData](https://github.com/Ecilam/BloodWarsSpyData)
 * [BloodWarsToolBox](https://github.com/Ecilam/BloodWarsToolBox)
 * [BloodWarsItemTest](https://github.com/Ecilam/BloodWarsItemTest) (celui-ci)
+* [BloodWarsItemTest](https://github.com/Ecilam/BloodWarsMix)
 
-Ce script est compatible avec les serveurs Français uniquement v1.5.5 et les navigateurs Firefox et Chrome. Testé principalement avec Firefox 30.0 sur serveur R3FR.
+Ce script est compatible avec les serveurs Français uniquement et les navigateurs Firefox, Chrome et Opéra.
+Testé principalement avec Firefox v40.0 sur serveur R3FR v1.7.0b.
 
 Pour tout contact passer par mon [topic](http://forum.fr.bloodwars.net/index.php?page=Thread&threadID=204323/) sur le forum BloodWars.
 Pour les bugs, GitHub propose une section [Issues](https://github.com/Ecilam/BloodWarsItemTest/issues).
 
 ###INSTALLATION
-* Pour Firefox installer préalablement le module [Greasemonkey](https://addons.mozilla.org/fr/firefox/addon/greasemonkey/) ou [Scriptish](https://addons.mozilla.org/en-US/firefox/addon/scriptish/).
-* Pour Google Chrome installer l'extension [Tampermonkey](https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo).
+* Firefox : installer préalablement le module [Greasemonkey](https://addons.mozilla.org/fr/firefox/addon/greasemonkey/) <strike>ou [Scriptish](https://addons.mozilla.org/en-US/firefox/addon/scriptish/)</strike>.
+* Google Chrome : installer l'extension [Tampermonkey](https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo).
+* Opera : installer [Chrome extension](https://addons.opera.com/fr/extensions/details/download-chrome-extension-9/?display=en) puis [Tampermonkey](https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo).
 * Ensuite afficher la version [RAW](https://raw.githubusercontent.com/Ecilam/BloodWarsItemTest/master/BloodWarsItemTest@bwit.user.js) du script pour que le module (ou l'extension) vous propose de l'installer.
 
 ###FONCTIONS
