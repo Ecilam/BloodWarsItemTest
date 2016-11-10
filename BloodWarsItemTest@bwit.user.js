@@ -3,7 +3,7 @@
 // ==UserScript==
 // @author		Ecilam
 // @name		Blood Wars Item Test
-// @version		2014.12.16
+// @version		2016.11.10
 // @namespace	BWIT
 // @description	Ce script calcule la facilité liée au niveau sur la page Item Test de BloodWars.
 // @copyright   2011-2014, Ecilam
@@ -19,10 +19,15 @@ function _Type(v){
 	var type = Object.prototype.toString.call(v);
 	return type.slice(8,type.length-1);
 	}
-
 function _Exist(v){
 	return _Type(v)!='Undefined';
 	}
+
+/******************************************************
+* DEBUG
+******************************************************/
+var debug = false,
+	debug_time = Date.now();
 
 /******************************************************
 * OBJET LS - Datas Storage
@@ -107,9 +112,9 @@ var IU = (function(){
 		};
 	})();
 
-/********
-* START *
-********/
+/******************************************************
+* FUNCTIONS
+******************************************************/
 function checkRace(e){
 	LS._SetVar('BWIT:ABSO',(e.target.value));
 	location.reload();
@@ -122,17 +127,20 @@ function checkEvo(e){
 	LS._SetVar('BWIT:EVO',(e.target.value));
 	location.reload();
 }
-//console.debug('BWIT start');
+/******************************************************
+* START
+******************************************************/
+if (debug) console.debug('BWITstart');
 if (!window.localStorage) throw new Error("Erreur : le service localStorage n\'est pas disponible.");
-var lvl = DOM._GetFirstNode("//input[@id='setLvl']"),
-	last = DOM._GetFirstNode("(//input)[last()]");
-if (lvl!=null&&last!=null){
-	var ilvl = parseInt(lvl.value),
-		abso = LS._GetVar('BWIT:ABSO','0')=='1',
-		tatou = LS._GetVar('BWIT:TATOU','0'),
-		evo = LS._GetVar('BWIT:EVO','0'),
-		faci = Math.min(((ilvl<71?Math.ceil((ilvl-60)/2):ilvl-70+5)+(abso?5:0)+(tatou=='1'?7:tatou=='2'?10:0)+Number(evo)),50),
-		node = IU._CreateElements({'span':['span',{'style':'text-align:middle'}],
+var lvl = DOM._GetFirstNode("//input[@id='setLvl']");
+var	last = DOM._GetFirstNode("(//input)[last()]");
+if (lvl!=null && last!=null) {
+	var ilvl = parseInt(lvl.value);
+  var abso = LS._GetVar('BWIT:ABSO','0')=='1';
+	var	tatou = LS._GetVar('BWIT:TATOU','0');
+	var	evo = LS._GetVar('BWIT:EVO','0');
+	var	faci = Math.min(((ilvl<71?Math.ceil((ilvl-60)/2):ilvl-70+5)+(abso?5:0)+(tatou=='1'?7:tatou=='2'?10:0)+Number(evo)),50);
+	var	node = IU._CreateElements({'span':['span',{'style':'text-align:middle'}],
 			'span1':['span',,[' Facilité: '+faci+'%'],,'span'],
 			'div1':['div',{'style':'vertical-align:middle'},,,'span'],
 			'b1':['b',,['Race: '],,'div1'],
@@ -161,12 +169,14 @@ if (lvl!=null&&last!=null){
 			'input35':['input',{'type':'radio','name':'evo','value':'7','checked':(evo=='7')},,{'change':[checkEvo]},'div3'],
 			'span35':['span',,['4'],,'div3']});
 	last.parentNode.insertBefore(node['span'],last.nextSibling);
-	var exi = DOM._GetNodes("//span[@class='error']");
-	for (var i=0;i<exi.snapshotLength;i++){
-		var val = new RegExp("^(.*: )([0-9]+)$").exec(exi.snapshotItem(i).textContent),
-			result = Math.ceil(val[2]*(1-(faci/100)));
-		if (val&&val[1]!='Le personnage doit être dans l`acte: '&&val[2]!=result) exi.snapshotItem(i).textContent = val[1]+result+" ("+val[2]+")";
-		}
+	var exi = DOM._GetNodes("//span[@class='disabled']");
+	for (var i=0;i<exi.snapshotLength;i++) {
+		var val = new RegExp("^(.*: )([0-9]+)$").exec(exi.snapshotItem(i).textContent);
+		var result = Math.ceil(val[2]*(1-(faci/100)));
+		if (val && val[1] != 'Le personnage doit être dans l`acte: ' && val[2] != result) {
+      exi.snapshotItem(i).textContent = val[1]+result+" ("+val[2]+")";
+    }
 	}
-//console.debug('BWIT end');
+}
+if (debug) console.debug('BWITend - time %oms',Date.now()-debug_time);
 })();
