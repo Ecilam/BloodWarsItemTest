@@ -3,14 +3,14 @@
 // ==UserScript==
 // @author		Ecilam
 // @name		Blood Wars Item Test
-// @version		2016.11.10
+// @version		2017.08.10
 // @namespace	BWIT
 // @description	Ce script calcule la facilité liée au niveau sur la page Item Test de BloodWars.
 // @copyright   2011-2014, Ecilam
 // @license     GPL version 3 ou suivantes; http://www.gnu.org/copyleft/gpl.html
 // @homepageURL https://github.com/Ecilam/BloodWarsItemTest
 // @supportURL  https://github.com/Ecilam/BloodWarsItemTest/issues
-// @include		/^http:\/\/r[0-9]*\.fr\.bloodwars\.net\/test_items.php.*$/
+// @include		/^https:\/\/r[0-9]*\.fr\.bloodwars\.net\/test_items.php.*$/
 // @grant       none
 // ==/UserScript==
 "use strict";
