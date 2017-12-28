@@ -3,7 +3,7 @@
 // ==UserScript==
 // @author		Ecilam
 // @name		Blood Wars Item Test
-// @version		2017.08.10
+// @version		2017.12.28
 // @namespace	BWIT
 // @description	Ce script calcule la facilité liée au niveau sur la page Item Test de BloodWars.
 // @copyright   2011-2014, Ecilam
@@ -167,7 +167,9 @@ if (lvl!=null && last!=null) {
 			'input34':['input',{'type':'radio','name':'evo','value':'4','checked':(evo=='4')},,{'change':[checkEvo]},'div3'],
 			'span34':['span',,['3'],,'div3'],
 			'input35':['input',{'type':'radio','name':'evo','value':'7','checked':(evo=='7')},,{'change':[checkEvo]},'div3'],
-			'span35':['span',,['4'],,'div3']});
+			'span35':['span',,['4'],,'div3'],
+			'input36':['input',{'type':'radio','name':'evo','value':'10','checked':(evo=='10')},,{'change':[checkEvo]},'div3'],
+			'span36':['span',,['5'],,'div3']});
 	last.parentNode.insertBefore(node['span'],last.nextSibling);
 	var exi = DOM._GetNodes("//span[@class='disabled']");
 	for (var i=0;i<exi.snapshotLength;i++) {
