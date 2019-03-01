@@ -2,7 +2,7 @@
 // ==UserScript==
 // @author      Ecilam
 // @name        Blood Wars Item Test
-// @version     2018.11.16
+// @version     2019.03.01
 // @namespace   BWIT
 // @description Ce script calcule la facilité liée au niveau sur la page Item Test de BloodWars.
 // @copyright   2011-2018, Ecilam
@@ -315,7 +315,7 @@ if (debug) console.debug('BWITstart');
         ['input23', 'input', {'type': 'radio', 'name': 'tatou', 'value': '2', 'checked': (tatou=='2')}, [], {'change': [checkTatou]}, 'div2'],
         ['span23', 'span', {}, ['Maître des démons'], {}, 'div2'],
         ['div3', 'div', {'style':'vertical-align:middle'}, [], {}, 'span'],
-        ['b3', 'b', {}, ['Evo "Légèreté de l`être" : '], {}, 'div3'],
+        ['b3', 'b', {}, ['Evo "Légèreté de l’être" : '], {}, 'div3'],
         ['input31', 'input', {'type': 'radio', 'name': 'evo', 'value': '0', 'checked': (evo=='0')}, [], {'change': [checkEvo]}, 'div3'],
         ['span31', 'span', {}, ['0'], {}, 'div3'],
         ['input32', 'input', {'type': 'radio', 'name': 'evo', 'value': '1', 'checked': (evo=='1')}, [], {'change': [checkEvo]}, 'div3'],
